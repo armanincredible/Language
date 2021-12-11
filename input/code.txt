@@ -1,0 +1,16 @@
+x = 4;
+y = 4;
+if (x == sin (y))
+{
+    x = sin (y);
+}
+else
+{
+    x = x - 8;
+}
+
+sin (y)
+{
+    y = y - y^3/6;
+    return y;
+};$

@@ -1,0 +1,1 @@
+g++ disasm_main.cpp disasm.cpp D:\VSC\processor\library\dora.cpp D:\VSC\processor\library\stack.cpp -o disasm

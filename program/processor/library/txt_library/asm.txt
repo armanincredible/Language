@@ -1,0 +1,47 @@
+PUSH 0
+POP GX
+PUSH 4
+POP [0]
+PUSH 4
+POP [1]
+CALL sin
+PUSH JX
+PUSH [0]
+JE jump_to_call1
+JMP skip_call1
+$ jump_to_call1 :
+CALL CALC_COND
+$ skip_call1 :
+PUSH 0
+PUSH GX
+JNE if1
+PUSH 8
+PUSH [0]
+SUB
+POP [0]
+JMP skip_if1
+$ if1 :
+CALL sin
+PUSH JX
+POP [0]
+$ skip_if1 :
+PUSH 0
+POP GX
+HLT
+$ sin :
+PUSH 6
+PUSH 3
+PUSH [1]
+POWER
+DIV
+PUSH [1]
+SUB
+POP [1]
+PUSH [1]
+POP JX
+RET
+HLT
+$ CALC_COND :
+PUSH 1
+POP GX
+RET

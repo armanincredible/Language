@@ -1,0 +1,27 @@
+IN
+POP AX
+PUSH 1
+POP BX
+PUSH 1
+POP CX
+CALL FACTORIAL
+PUSH CX
+OUT
+HLT
+$ FACTORIAL :
+        PUSH AX
+        PUSH BX
+        JAL END
+        PUSH CX
+        PUSH BX
+        PUSH 1
+        ADD
+        MUL
+        POP CX
+        PUSH BX
+        PUSH 1
+        ADD
+        POP BX
+        CALL FACTORIAL
+$ END :
+        RET

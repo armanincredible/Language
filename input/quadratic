@@ -1,0 +1,47 @@
+a = 0;
+b = 0;
+c = 0;
+
+scan (a);
+scan (b);
+scan (c);
+
+d = CalcDiscr (a, b, c);
+
+VTURILAS (d == 0)
+DORA
+    x = CalcOnlyOneRoot (a, b);
+    print (x);
+DURA
+VKRASHILAS
+DORA
+    VTURILAS (d > 0)
+    DORA
+        SqD = sqrt (d);
+        print (SqD);
+        x1 = CalcFirstRoot (a, b, SqD);
+        x2 = CalcSecRoot (a, b, SqD);
+        print (x1);
+        print (x2);
+    DURA
+DURA
+
+CalcDiscr (a, b, c)
+DORA
+    POSHLU b^2 - 4*a*c;
+DURA;
+
+CalcOnlyOneRoot (a, b)
+DORA
+    POSHLU (0 - b/(2*a));
+DURA;
+
+CalcFirstRoot (a, b, SqD)
+DORA
+    POSHLU 0 - (b + SqD)/(2*a);
+DURA;
+
+CalcSecRoot (a, b, SqD)
+DORA
+    POSHLU 0 - (b - SqD)/(2*a);
+DURA;$

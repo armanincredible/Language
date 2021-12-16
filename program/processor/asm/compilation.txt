@@ -1,0 +1,1 @@
+g++ asm_main.cpp asm.cpp D:\VSC\processor\library\Onegin\dora.cpp D:\VSC\processor\library\Stack\stack.cpp -o asm 

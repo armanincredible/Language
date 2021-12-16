@@ -1,0 +1,11 @@
+x=0;
+VTURILAS(x==3)
+DORA
+VLYAPALAS(x<2)
+DORA
+x=x+1;
+
+DURA
+
+DURA
+

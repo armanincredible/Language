@@ -1,0 +1,20 @@
+x = 0;
+y = 8;
+VTURILAS (x == 5)
+DORA
+    x = 4;
+DURA
+VKRASHILAS
+DORA
+    x = sin (y);
+DURA
+VLYAPALAS (x < 10)
+DORA
+    x = x + 5;
+DURA
+
+sin (y)
+DORA
+    y = y - y^3/6;
+    POSHLU y;
+DURA; $

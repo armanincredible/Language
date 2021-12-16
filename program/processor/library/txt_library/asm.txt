@@ -1,0 +1,43 @@
+PUSH 0
+POP GX
+PUSH 0
+POP [FX + 0]
+PUSH 3
+PUSH [FX + 0]
+JE jump_to_call1
+JMP skip_call1
+$ jump_to_call1 :
+CALL CALC_COND
+$ skip_call1 :
+PUSH 0
+PUSH GX
+JNE if1
+JMP skip_if1
+$ if1 :
+$ wh_cycle2 :
+PUSH 2
+PUSH [FX + 0]
+JB jump_to_call2
+JMP skip_call2
+$ jump_to_call2 :
+CALL CALC_COND
+$ skip_call2 :
+PUSH 0
+PUSH GX
+JE skip_wh2
+PUSH 1
+PUSH [FX + 0]
+ADD
+POP [FX + 0]
+PUSH 0
+POP GX
+JMP wh_cycle2
+$ skip_wh2 :
+$ skip_if2 :
+PUSH 0
+POP GX
+HLT
+$ CALC_COND :
+PUSH 1
+POP GX
+RET

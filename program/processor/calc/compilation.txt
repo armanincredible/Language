@@ -1,0 +1,2 @@
+calc> g++ calc_main.cpp calc.cpp D:\VSC\processor\library\stack.cpp D:\VSC\processor\library\dora.cpp -o calc 
+g++ calc_main.cpp calc.cpp D:\VSC\processor\library\stack.cpp D:\VSC\processor\library\dora.cpp -o calc 

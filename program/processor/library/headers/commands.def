@@ -1,0 +1,215 @@
+
+DEF_CMD(0, HLT, _parsing_default, break;)
+
+DEF_CMD(1, PUSH, _parsing_push_pop,
+        elem_t value = inm_value;
+        if (bit_field.reg == 1)
+        {
+                value += proc->Regs[reg_value];
+        }
+        if (bit_field.ram == 1)
+        {
+                stack_push (stack, proc->Ram [(int)(value)]);
+        }
+        else 
+        {
+                stack_push (stack, value);
+        })
+
+DEF_CMD(2, POP, _parsing_push_pop,
+        elem_t value = inm_value;
+        elem_t stack_value = 0;
+        if (bit_field.reg == 1)
+        {
+                value += proc->Regs[reg_value];
+        }
+        if (bit_field.ram == 1)
+        {
+                stack_pop (stack, &stack_value);
+                proc->Ram [(int)(value)] = stack_value;
+        }
+        else
+        {
+                stack_pop (stack, &stack_value);
+                proc->Regs[reg_value] = stack_value;
+        }
+        )
+
+DEF_CMD(3, ADD, _parsing_default,
+        elem_t fr_var = 0;
+        elem_t sec_var = 0;
+        stack_pop (stack, &fr_var);
+        stack_pop (stack, &sec_var);
+
+        stack_push (stack, fr_var + sec_var);
+        )
+
+DEF_CMD(4, SUB, _parsing_default,
+        elem_t fr_var = 0;
+        elem_t sec_var = 0;
+        stack_pop (stack, &fr_var);
+        stack_pop (stack, &sec_var);
+
+        stack_push (stack, fr_var - sec_var);
+        )
+
+DEF_CMD(5, MUL, _parsing_default,
+        elem_t fr_var = 0;
+        elem_t sec_var = 0;
+        stack_pop (stack, &fr_var);
+        stack_pop (stack, &sec_var);
+
+        stack_push (stack, (elem_t) (fr_var * sec_var));
+        )
+
+DEF_CMD(6, DIV, _parsing_default,
+        elem_t fr_var = 0;
+        elem_t sec_var = 0;
+        stack_pop (stack, &fr_var);
+        stack_pop (stack, &sec_var);
+
+        stack_push (stack, fr_var / sec_var); 
+        )
+
+DEF_CMD(7, OUT, _parsing_default,
+        elem_t fr_var = 0;
+        stack_pop (stack, &fr_var);
+        printf ("%lf\n", fr_var);
+        )
+
+DEF_CMD(8, IN, _parsing_default,
+        double value_dbl = 0;
+        printf ("WRITE VALUE : ");
+        scanf ("%lf", &value_dbl);
+        stack_push (stack, value_dbl);
+        )
+
+DEF_CMD(9, JA, _parsing_call_jump,
+        elem_t fr_var = 0;
+        elem_t sec_var = 0;
+        stack_pop (stack, &fr_var);
+        stack_pop (stack, &sec_var);
+        if (fr_var > sec_var)
+        {
+                proc->Ip = (int)inm_value;
+        }
+        )
+
+DEF_CMD(10, JAL, _parsing_call_jump,
+        elem_t fr_var = 0;
+        elem_t sec_var = 0;
+        stack_pop (stack, &fr_var);
+        stack_pop (stack, &sec_var);
+        if (fr_var >= sec_var)
+        {
+                proc->Ip = (int)inm_value;
+        }
+        )
+
+DEF_CMD(11, JB, _parsing_call_jump,
+        elem_t fr_var = 0;
+        elem_t sec_var = 0;
+        stack_pop (stack, &fr_var);
+        stack_pop (stack, &sec_var);
+        if (fr_var < sec_var)
+        {
+                proc->Ip = (int)inm_value;
+        }
+        )
+
+DEF_CMD(12, JBL, _parsing_call_jump,
+        elem_t fr_var = 0;
+        elem_t sec_var = 0;
+        stack_pop (stack, &fr_var);
+        stack_pop (stack, &sec_var);
+        if (fr_var <= sec_var)
+        {
+                proc->Ip = (int)inm_value;
+        }
+        )
+
+DEF_CMD(13, JE, _parsing_call_jump,
+        elem_t fr_var = 0;
+        elem_t sec_var = 0;
+        stack_pop (stack, &fr_var);
+        stack_pop (stack, &sec_var);
+        if (/*fabs (fr_var - sec_var) <= EPS*/ fr_var == sec_var)
+        {
+                proc->Ip = (int)inm_value;
+        }
+        )
+
+DEF_CMD(14, JNE, _parsing_call_jump,
+        elem_t fr_var = 0;
+        elem_t sec_var = 0;
+        stack_pop (stack, &fr_var);
+        stack_pop (stack, &sec_var);
+        if (fabs (fr_var - sec_var) > EPS)
+        {
+                proc->Ip = (int)inm_value;
+        }
+        )
+
+DEF_CMD(15, JMP, _parsing_call_jump,
+        proc->Ip = (int)inm_value;
+        )
+
+DEF_CMD(16, CALL, _parsing_call_jump,
+        rtr_pointer[rtr_ip] = proc->Ip;
+        rtr_ip++;
+        proc->Ip = (int)inm_value;
+        )
+
+DEF_CMD(17, RET, _parsing_default,
+        int ip_save = 0;
+        ip_save = rtr_pointer[rtr_ip - 1];
+        rtr_ip--;
+        proc->Ip = (int)ip_save;
+        )
+
+DEF_CMD(18, SQRT, _parsing_default,
+        elem_t fr_var = 0;
+        elem_t sq_var = 0;
+        stack_pop (stack, &fr_var);
+        sq_var = sqrt (fr_var);
+        stack_push (stack, sq_var);
+        )
+
+DEF_CMD(19, DRAW, _parsing_default,
+        int ft = sizeof (elem_t);
+        
+        for (int y = 0; y < ft * (int (sqrt (SIZE_VRAM))); y++)
+        {
+                for (int x = 0; x < ft * (int (sqrt (SIZE_VRAM))); x++)
+                {
+                        int point_adr = 40 * y + x;
+
+                        if (*((char*) proc->Ram + point_adr) == 1)
+                        {
+                                printf ("**");
+                        }
+                        else 
+                        {
+                                printf ("..");
+                        }
+                }
+                printf ("\n");
+        }
+        )
+
+DEF_CMD(20, MAKE_POINT, _parsing_default,
+        elem_t x = 0;   /////byte
+        elem_t y = 0; ///byte
+        stack_pop (stack, &y);
+        stack_pop (stack, &x);
+        *((char*) proc->Ram + 40 * ((int) y) + ((int) x)) = 1;
+        )
+
+DEF_CMD(21, POWER, _parsing_default,
+        elem_t fr_var = 0;
+        elem_t sec_var = 0;
+        stack_pop (stack, &fr_var);
+        stack_pop (stack, &sec_var);
+        elem_t res = pow (fr_var, sec_var);
+        stack_push (stack, (elem_t) (res));
+        )

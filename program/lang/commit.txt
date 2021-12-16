@@ -1,0 +1,159 @@
+#include "lang.h"
+
+#define CHECK_ERROR_(name, type_error, ret)                                             \
+        do{                                                                             \
+            if ((name) == NULL)                                                         \
+            {                                                                           \
+                printf ("\nERROR in function : %s \n"                                   \
+                        "%s have %s on line %d\n", __func__,                            \
+                        #name, type_error, __LINE__);                                   \
+                return ret;                                                             \
+            }                                                                           \
+        } while (0)
+
+#define $ printf("\t\t\t---ON LINE %d IN FUNCTION %s---\n", __LINE__, __func__);
+
+static void syntax_error (int type);
+
+Tree* get_num (char** str)
+{
+    double val = 0;
+    size_t amount_symbols = 0;
+
+    while ((**str >= '0') && (**str <= '9'))
+    {
+        printf ("%c\n", **str);
+        amount_symbols++;
+        val = val * 10 + (**str - '0');
+        *str = *str + 1;
+    }
+    if (amount_symbols != 0)
+    {
+        $
+        return val;
+    }
+    else
+    {
+        syntax_error (NO_NUMBER);/////////////////////
+    }
+    return 0;
+}
+
+Tree* get_exp (char** str)
+{
+    Tree* val = get_t (str);
+
+    while ((**str == '+') || (**str == '-'))
+    {
+        char operation = **str;
+        *str = *str + 1;
+        int sec_val = get_t (str);
+        if (operation == '+')
+        {
+            val += sec_val;
+        }
+        else
+        {
+            val -= sec_val;
+        }
+    }
+    return val;
+}
+
+Tree* get_general (char** str)
+{
+    double val = get_exp (str);
+
+    if (**str == '$')
+    {
+        *str = *str + 1;
+    }
+    else
+    {
+        syntax_error (NO_END_DOLLAR); /////////////////////
+    }
+
+    return val;
+}
+
+Tree* get_t (char** str)
+{
+    $
+    double val = get_p (str);
+
+    printf ("%c", **str);
+
+    while ((**str == '*') || (**str == '/'))
+    {
+        $
+        char operation = **str;
+        *str = *str + 1;
+        int sec_val = get_p (str);
+        if (operation == '*')
+        {
+            val = val * sec_val;
+        }
+        else
+        {
+            val = val / sec_val;
+        }
+    }
+    return val;
+}
+
+Tree* get_p (char** str)
+{
+    double val = 0;
+
+    if (**str == '(')
+    {
+        *str = *str + 1;
+        val = get_exp (str);
+
+        if (**str != ')')
+        {
+            syntax_error (NO_PARENTHESIS); ////////////
+        }
+        *str = *str + 1;
+    }
+    else
+    {
+        val = get_num (str);
+    }
+    return val;
+}
+
+
+static void syntax_error (int type)
+{
+    switch (type)
+    {
+        case NO_PARENTHESIS :
+        {
+            printf ("NO_PARENTHESIS ERROR");
+            assert (1);
+            break;
+        }
+        case NO_END_DOLLAR :
+        {
+            printf ("NO_END_DOLLAR ERROR");
+            assert (1);
+            break;
+        }
+        case NO_NUMBER :
+        {
+            printf ("NO_NUMBER ERROR");
+            assert (1);
+            break;
+        }
+        
+        default:
+        {
+            break;
+        }
+    }
+}
+
+#undef CHECK_ERROR_
+
+#undef $

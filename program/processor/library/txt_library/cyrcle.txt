@@ -1,0 +1,63 @@
+IN
+IN
+IN
+POP CX////Y0
+POP BX////X0
+POP AX////R
+JMP WHILE1
+$ END :
+        DRAW
+        HLT
+$ WHILE1 :
+        PUSH 0
+        POP DX////Y
+        $ ARG1 :
+                PUSH DX
+                PUSH 40
+                JE END
+                $ WHILE2 :
+                        PUSH 0
+                        POP EX////X
+                        $ ARG2 :
+                                PUSH EX
+                                PUSH 40
+                                JE END_ARG2
+                                PUSH EX
+                                PUSH BX
+                                SUB
+                                PUSH EX
+                                PUSH BX 
+                                SUB
+                                MUL
+                                PUSH DX
+                                PUSH CX
+                                SUB
+                                PUSH DX
+                                PUSH CX 
+                                SUB
+                                MUL
+                                ADD
+                                PUSH AX
+                                PUSH AX
+                                MUL
+                                CALL IF
+                                PUSH EX
+                                PUSH 1
+                                ADD
+                                POP EX
+                                JMP ARG2
+                $ END_ARG2 :
+                PUSH DX
+                PUSH 1
+                ADD
+                POP DX
+                JMP ARG1
+$ IF :
+        JAL MAKE_POINT_ASM
+        $ EXIT :
+                RET
+$ MAKE_POINT_ASM :
+        PUSH EX
+        PUSH DX
+        MAKE_POINT
+        JMP EXIT

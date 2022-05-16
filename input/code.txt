@@ -1,0 +1,17 @@
+x = 5;
+y = 0;
+z = 0;
+VLYAPALAS (y < 1000000)
+DORA
+    x = 5;
+    z = fact (x);
+    y = y + 1;
+DURA
+fact (x)
+DORA
+    VTURILAS (x == 0)
+    DORA
+        POSHLU 1;
+    DURA
+    POSHLU x * fact (x - 1);
+DURA;$

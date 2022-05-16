@@ -1,0 +1,11 @@
+x = 5;
+x = fact (x);
+print (x);
+fact (x)
+DORA
+    VTURILAS (x == 0)
+    DORA
+        POSHLU 1;
+    DURA
+    POSHLU x * fact (x - 1);
+DURA;$

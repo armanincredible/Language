@@ -1,7 +1,7 @@
 # Language
 ## About
 First, tokens are created by parsing, and then connected by recursive descent. BackEnd then creates an assembler file for my implementation [click](https://github.com/armanincredible/CPU). <br/> 
-If you want to work with my language, you can also use my [compiler](https://github.com/armanincredible/Compiler)
+If you want to work with my language, you can also use my [compiler](https://github.com/armanincredible/Compiler).
 ## Grammar
 This so easily, because it's similar to c language.
 + if     <=> VTURILAS

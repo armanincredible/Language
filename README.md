@@ -1,6 +1,6 @@
 # Language
 ## About
-First, tokens are created by parsing, and then connected by recursive descent. BackEnd then creates an assembler file for my implementation [click]{https://github.com/armanincredible/CPU}.
+First, tokens are created by parsing, and then connected by recursive descent. BackEnd then creates an assembler file for my implementation [click]{https://github.com/armanincredible/CPU}. If you want to work with my language, you can also use my [compiler]{https://github.com/armanincredible/Compiler}
 ## Grammar
 This so easily, because it's similar to c language.
 + if     <=> VTURILAS
@@ -9,7 +9,7 @@ This so easily, because it's similar to c language.
 + {}     <=> DORA DURA
 + return <=> POSHLU
 
-example of program that calculates factorial:
+Example of program that calculates factorial:
 ```
 #x = scanf (#x);
 #x = fact (#x);
